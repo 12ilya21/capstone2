@@ -34,13 +34,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
-    # write_only=True 옵션을 통해 클라이언트->서버의 역직렬화는 가능하지만, 서버->클라이언트 방향의 직렬화는 불가능하도록 해준다.
     
     def validate(self, data):
         user = authenticate(**data)
         if user:
-            token = Token.objects.get(user=user) # 해당 유저의 토큰을 불러옴
-            return token
-        raise serializers.ValidationError( # 가입된 유저가 없을 경우
+            return user
+        raise serializers.ValidationError(
             {"error": "Unable to log in with provided credentials."}
         )
