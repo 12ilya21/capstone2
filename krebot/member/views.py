@@ -36,4 +36,4 @@ class LogoutView(APIView):
             request.user.auth_token.delete()
         except (AttributeError, Token.DoesNotExist):
             pass
-        return Response(status=status.HTTP_200_OK)
+        return Response({"message": f"{username} has been logged out."}, status=status.HTTP_200_OK)
