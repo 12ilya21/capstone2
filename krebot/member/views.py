@@ -31,6 +31,7 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        username = request.user.username
         try:
             # 요청한 사용자의 인증 토큰을 삭제
             request.user.auth_token.delete()
